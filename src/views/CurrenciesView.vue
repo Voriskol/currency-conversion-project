@@ -1,18 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { CURRENCY_API_KEY, CURRENCY_API_BASE_URL } from '@/constants'
-import { onMounted } from 'vue'
+import { useCurrenciesStore } from '@/store/currencies'
 
-const currencies = ref<number[]>([])
-
-async function getCurrencies() {
-  await fetch(`${CURRENCY_API_BASE_URL}/${CURRENCY_API_KEY}/latest/RUB`)
-    .then((response) => response.json())
-    .then((data) => (currencies.value = data.conversion_rates))
-    .catch((error) => console.log(error))
-}
-
-onMounted(getCurrencies)
+const currenciesStore = useCurrenciesStore()
+const currencies = currenciesStore.currenciesList
 </script>
 
 <template>

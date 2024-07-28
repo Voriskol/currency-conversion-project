@@ -1,34 +1,42 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useCurrenciesStore } from '@/store/currencies'
+import { ref } from 'vue';
+
+const currenciesStore = useCurrenciesStore()
+const baseCurrency = ref<string>('RUB')
+</script>
 
 <template>
   <div>
     <div>
       <p>Amount</p>
       <div>
-        <select name="currency" id="">
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
-          <option value="RUB">RUB</option>
-          <option value="JPY">JPY</option>
-          <option value="CNY">CNY</option>
-          <option value="GBP">GBP</option>
+        <select name="currency" v-model="baseCurrency">
+          <option
+            v-for="(currency, index) in currenciesStore.currenciesList"
+            :value="currency"
+            :key="index"
+          >
+            {{ index }}
+          </option>
         </select>
-        <input type="text" placeholder="0" />
+        <input type="text" placeholder="0" class="bg-white" />
       </div>
     </div>
-    <button>Convert!</button>
+    <button class="bg-[#1F2261] text-white rounded cursor-pointer">Convert!</button>
     <div>
       <p>Converted Amount</p>
       <div>
-        <select name="currency" id="">
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
-          <option value="RUB">RUB</option>
-          <option value="JPY">JPY</option>
-          <option value="CNY">CNY</option>
-          <option value="GBP">GBP</option>
+        <select name="currency">
+          <option
+            v-for="(currency, index) in currenciesStore.currenciesList"
+            :value="currency"
+            :key="index"
+          >
+            {{ index }}
+          </option>
         </select>
-        <input type="text" placeholder="0" />
+        <input type="text" placeholder="0" class="bg-white" />
       </div>
     </div>
   </div>
