@@ -7,9 +7,17 @@ onMounted(getCurrencies)
 </script>
 
 <template>
-  <input type="text" v-model="CURRENT_CURRENCY" />
-  <button @click="getCurrencies">Get Currencies</button>
-  <v-table :hover="true" :height="400" :fixed-header="true" class="rounded-lg border-sm">
+  <div class="flex justify-around p-3">
+    <input type="text" v-model="CURRENT_CURRENCY" class="bg-white p-2 rounded w-20 text-center" />
+    <button @click="getCurrencies" class="bg-[#1F2261] text-white rounded w-20">Convert</button>
+  </div>
+
+  <v-table
+    :hover="true"
+    :height="400"
+    :fixed-header="true"
+    class="rounded-lg border-sm h-[300px] w-[500px] m-auto"
+  >
     <thead>
       <tr>
         <th class="text-left">Currency</th>
