@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { useCurrenciesStore } from '@/store/currencies'
+import { CURRENCIES, CURRENT_CURRENCY } from '@/constants'
+import { onMounted } from 'vue'
+import getCurrencies from '@/composables'
 
-const currenciesStore = useCurrenciesStore()
-const currencies = currenciesStore.currenciesList
+onMounted(getCurrencies)
 </script>
 
 <template>
+  <input type="text" v-model="CURRENT_CURRENCY" />
+  <button @click="getCurrencies">Get Currencies</button>
   <v-table :hover="true" :height="400" :fixed-header="true" class="rounded-lg border-sm">
     <thead>
       <tr>
@@ -14,7 +17,7 @@ const currencies = currenciesStore.currenciesList
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(currency, index) in currencies" :key="index">
+      <tr v-for="(currency, index) in CURRENCIES" :key="index">
         <td>{{ index }}</td>
         <td>{{ currency.toFixed(2) }}</td>
       </tr>

@@ -1,9 +1,24 @@
 <script setup lang="ts">
-import { useCurrenciesStore } from '@/store/currencies'
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue'
+import type { Ref } from 'vue'
+import { CURRENCIES, CURRENCIES_KEYS, CURRENT_CURRENCY } from '@/constants'
+import getCurrencies from '@/composables'
 
-const currenciesStore = useCurrenciesStore()
-const baseCurrency = ref<string>('RUB')
+const currencies = CURRENCIES
+const currenciesKeys = CURRENCIES_KEYS
+
+const currentCurrency = CURRENT_CURRENCY
+const currentCurrencyValue = ref<number>(1)
+
+const resultCurrency = ref<any>('USD')
+const resultCurrencyValue = ref<number>(0)
+
+function convertCurrency(): Ref<number> {
+  resultCurrencyValue.value = currentCurrencyValue.value * currencies.value[resultCurrency.value]
+  return resultCurrencyValue
+}
+
+onMounted(getCurrencies)
 </script>
 
 <template>
@@ -11,32 +26,34 @@ const baseCurrency = ref<string>('RUB')
     <div>
       <p>Amount</p>
       <div>
-        <select name="currency" v-model="baseCurrency">
-          <option
-            v-for="(currency, index) in currenciesStore.currenciesList"
-            :value="currency"
-            :key="index"
-          >
-            {{ index }}
+        <select name="currency" v-model="currentCurrency" @change="getCurrencies">
+          <option v-for="currency in currenciesKeys" :key="currency">
+            {{ currency }}
           </option>
         </select>
-        <input type="text" placeholder="0" class="bg-white" />
+        <span>Выбрано: {{ currentCurrency }}</span>
+        <input type="text" placeholder="0" class="bg-white" v-model="currentCurrencyValue" />
       </div>
     </div>
-    <button class="bg-[#1F2261] text-white rounded cursor-pointer">Convert!</button>
+    <button class="bg-[#1F2261] text-white rounded cursor-pointer" @click="convertCurrency">
+      Convert!
+    </button>
     <div>
       <p>Converted Amount</p>
       <div>
-        <select name="currency">
-          <option
-            v-for="(currency, index) in currenciesStore.currenciesList"
-            :value="currency"
-            :key="index"
-          >
-            {{ index }}
+        <select name="currency" v-model="resultCurrency">
+          <option v-for="currency in currenciesKeys" :key="currency">
+            {{ currency }}
           </option>
         </select>
-        <input type="text" placeholder="0" class="bg-white" />
+        <span>Выбрано: {{ resultCurrency }}</span>
+        <input
+          type="text"
+          placeholder="0"
+          class="bg-white"
+          v-model="resultCurrencyValue"
+          placehoder="0"
+        />
       </div>
     </div>
   </div>
