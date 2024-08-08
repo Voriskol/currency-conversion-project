@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue'
 import type { Ref } from 'vue'
 import { CURRENCIES, CURRENCIES_KEYS, CURRENT_CURRENCY } from '@/constants'
 import getCurrencies from '@/composables'
+import Input from '@/components/Input/Input.vue'
 
 const currencies = CURRENCIES
 const currenciesKeys = CURRENCIES_KEYS
@@ -22,38 +23,44 @@ onMounted(getCurrencies)
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col justify-center">
     <div>
-      <p>Amount</p>
-      <div>
-        <select name="currency" v-model="currentCurrency" @change="getCurrencies">
+      <h3 class="text-[#1F2261] text-center font-mono font-bold text-xl pb-3">Amount</h3>
+      <div class="flex justify-center gap-4 border-b-2 pb-3">
+        <select
+          name="currency"
+          v-model="currentCurrency"
+          @change="getCurrencies"
+          class="bg-white rounded p-2 cursor-pointer"
+        >
           <option v-for="currency in currenciesKeys" :key="currency">
             {{ currency }}
           </option>
         </select>
-        <span>Выбрано: {{ currentCurrency }}</span>
-        <input type="text" placeholder="0" class="bg-white" v-model="currentCurrencyValue" />
+        <Input v-model="currentCurrencyValue" />
       </div>
     </div>
-    <button class="bg-[#1F2261] text-white rounded cursor-pointer" @click="convertCurrency">
-      Convert!
-    </button>
-    <div>
-      <p>Converted Amount</p>
-      <div>
-        <select name="currency" v-model="resultCurrency">
+    <div class="flex justify-center bg-slate-400">
+      <button
+        class="bg-[#1F2261] text-white rounded cursor-pointer m-10 max-w-[100px] p-2 font-bold text-xl"
+        @click="convertCurrency"
+      >
+        Convert!
+      </button>
+    </div>
+    <div class="border-t-2 pt-2">
+      <h3 class="text-[#1F2261] text-center font-mono font-bold text-xl pb-3">Converted Amount</h3>
+      <div class="flex justify-center gap-4">
+        <select
+          name="currency"
+          v-model="resultCurrency"
+          class="bg-white rounded p-2 cursor-pointer"
+        >
           <option v-for="currency in currenciesKeys" :key="currency">
             {{ currency }}
           </option>
         </select>
-        <span>Выбрано: {{ resultCurrency }}</span>
-        <input
-          type="text"
-          placeholder="0"
-          class="bg-white"
-          v-model="resultCurrencyValue"
-          placehoder="0"
-        />
+        <Input v-model="resultCurrencyValue" />
       </div>
     </div>
   </div>

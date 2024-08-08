@@ -1,7 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="flex flex-col max-w-[600px] m-auto h-[500px] border mt-10 rounded-3xl bg-zinc-300">
+  <div
+    class="flex flex-col max-w-[600px] m-auto h-[500px] border mt-10 rounded-3xl bg-zinc-300 justify-between "
+  >
     <header class="pt-5 pb-2 border-b">
       <h1 class="text-3xl font-bold text-center text-[#1F2261]">Currency Converter</h1>
     </header>
